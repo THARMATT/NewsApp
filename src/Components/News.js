@@ -45,25 +45,56 @@ export class News extends Component {
           content:
             "India's two superstar batters, Virat Kohli and Rohit Sharma, haven't played a single T20 international for the national team this year. With Hardik Pandya leading the Indian troops in the shortest fo… [+1487 chars]",
         },
-        ],
-      },
+      ],
+    },
   ];
   constructor() {
     super();
     console.log("hello");
     this.state = {
-      articles: this.articles,
+      articles: [],
       loading: false,
+      page:1, 
     };
   }
-  async componentDidMount(){
+  async componentDidMount() {
     console.log("cdm");
-    let url="https://newsapi.org/v2/top-headlines?country=in&apiKey=e37432349ec34b10a8255b5b818f769f"
-    let data=await fetch(url);
-    let pastData=await data.json()
+    let url =
+      "https://newsapi.org/v2/top-headlines?country=in&apiKey=e37432349ec34b10a8255b5b818f769f";
+    let data = await fetch(url);
+    let pastData = await data.json();
     console.log(pastData);
-    this.setState({articles:pastData.articles})
-   }
+    this.setState({ articles: pastData.articles,totalResults: pastData.totalResults});
+  }
+
+
+  handlePrevClick = async () => {
+    console.log("previous")
+    let url = `https://newsapi.org/v2/top-headlines?country=in&apiKey=e37432349ec34b10a8255b5b818f769f&page=${
+      this.state.page - 1
+    }&pageSize=20`;
+    let data = await fetch(url);
+    let pastData = await data.json();
+    console.log(pastData);
+    // this.setState({  });
+
+    this.setState({ articles: pastData.articles, page: this.state.page - 1 });
+  };
+  handleNextClick = async () => {
+
+    console.log("next")
+    if(  this.state.page + 1>Math.ceil(this.state.totalResults/20)){}
+    else{
+    let url = `https://newsapi.org/v2/top-headlines?country=in&apiKey=e37432349ec34b10a8255b5b818f769f&page=${
+      this.state.page + 1
+    }&pageSize=20`;
+    let data = await fetch(url);
+    let pastData = await data.json();
+    console.log(pastData);
+    // this.setState({  });
+
+    this.setState({ articles: pastData.articles, page: this.state.page + 1 });
+  }};
   render() {
     return (
       <div>
@@ -75,10 +106,10 @@ export class News extends Component {
             {this.state.articles.map((element) => {
               return (
                 <div className="col-md-4" key={element.url}>
-                  <NewsItem 
+                  <NewsItem
                     title={element.title ? element.title : " "}
                     description={
-                      element.description ? element.description.slice(0, 80) : " "
+                      element.description ? element.description : " "
                     }
                     imageurl={element.urlToImage ? element.urlToImage : ""}
                     newsurl={element.url ? element.url : ""}
@@ -87,6 +118,23 @@ export class News extends Component {
               );
             })}
           </div>
+        </div>
+        <div className="container d-flex justify-content-between">
+          <button
+            disabled={this.state.page <= 1}
+            type="button"
+            className="btn btn-dark"
+            onClick={this.handlePrevClick}
+          >
+           &larr; Previous
+          </button>
+          <button
+            type="button"
+            className="btn btn-dark"
+            onClick={this.handleNextClick}
+          >
+            Next &rarr;
+          </button>
         </div>
       </div>
     );
