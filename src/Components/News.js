@@ -1,92 +1,91 @@
 import React, { Component } from "react";
 import NewsItem from "./NewsItem";
 export class News extends Component {
-  articles=[ {
-    "id": "google-news-ru",
-    "name": "Google News (Russia)",
-    "description": "Исчерпывающая и актуальная информация, собранная службой &quot;Новости Google&quot; со всего света.",
-    "url": "https://news.google.com",
-    "category": "general",
-    "language": "ru",
-    "country": "ru"
-  },
-  {
-    "id": "google-news-sa",
-    "name": "Google News (Saudi Arabia)",
-    "description": "تغطية شاملة ومتجددة للأخبار، تم جمعها من مصادر أخبار من جميع أنحاء العالم بواسطة أخبار Google.",
-    "url": "https://news.google.com",
-    "category": "general",
-    "language": "ar",
-    "country": "sa"
-  },
-  {
-    "id": "google-news-uk",
-    "name": "Google News (UK)",
-    "description": "Comprehensive, up-to-date UK news coverage, aggregated from sources all over the world by Google News.",
-    "url": "https://news.google.com",
-    "category": "general",
-    "language": "en",
-    "country": "gb"
-  },
-  {
-    "id": "goteborgs-posten",
-    "name": "Göteborgs-Posten",
-    "description": "Göteborgs-Posten, abbreviated GP, is a major Swedish language daily newspaper published in Gothenburg, Sweden.",
-    "url": "http://www.gp.se",
-    "category": "general",
-    "language": "sv",
-    "country": "se"
-  },
-  {
-    "id": "gruenderszene",
-    "name": "Gruenderszene",
-    "description": "Online-Magazin für Startups und die digitale Wirtschaft. News und Hintergründe zu Investment, VC und Gründungen.",
-    "url": "http://www.gruenderszene.de",
-    "category": "technology",
-    "language": "de",
-    "country": "de"
-  },
-  {
-    "id": "hacker-news",
-    "name": "Hacker News",
-    "description": "Hacker News is a social news website focusing on computer science and entrepreneurship. It is run by Paul Graham's investment fund and startup incubator, Y Combinator. In general, content that can be submitted is defined as \"anything that gratifies one's intellectual curiosity\".",
-    "url": "https://news.ycombinator.com",
-    "category": "technology",
-    "language": "en",
-    "country": "us"
-  },
-  {
-    "id": "handelsblatt",
-    "name": "Handelsblatt",
-    "description": "Auf Handelsblatt lesen sie Nachrichten über Unternehmen, Finanzen, Politik und Technik. Verwalten Sie Ihre Finanzanlagen mit Hilfe unserer Börsenkurse.",
-    "url": "http://www.handelsblatt.com",
-    "category": "business",
-    "language": "de",
-    "country": "de"
-  }]
-  constructor(){
+  articles = [
+    {
+      status: "ok",
+      totalResults: 38,
+      articles: [
+        {
+          source: { id: null, name: "India Today" },
+          author: "Ankita Garg",
+          title:
+            "With iOS 17, Apple likely to change the way you hang up calls on iPhones and access other things - India Today",
+          description:
+            'iOS 17 update: Apple has repositioned the iconic red "end call" button and mixed it with other buttons. The change will likely affect your daily life as long time iPhone users will initially tap on wrong buttons to hang up calls.',
+          url: "https://www.indiatoday.in/technology/news/story/with-ios-17-apple-likely-to-change-the-way-you-hang-up-calls-on-iphones-and-access-other-things-2419577-2023-08-11",
+          urlToImage:
+            "https://akm-img-a-in.tosshub.com/indiatoday/images/media_bank/202308/iphone-representationalpng-011411-16x9.png?VersionId=djIH8q13DvYWfUl8Jk4Omir7WdLAgVo6",
+          publishedAt: "2023-08-11T08:24:21Z",
+          content:
+            "Apple's forthcoming iOS 17 has caught the attention of everyone, as images from its beta versions unveil a range of intriguing alterations. The upcoming iOS version is said to add functions for the n… [+2430 chars]",
+        },
+        {
+          source: { id: "the-hindu", name: "The Hindu" },
+          author: "The Hindu",
+          title:
+            "Bill introduced to remove CJI from panel to select Election Commissioners - The Hindu",
+          description: null,
+          url: "https://www.thehindu.com/news/national/bill-moved-to-remove-cji-from-panel-to-select-election-commissioners/article67180873.ece",
+          urlToImage: null,
+          publishedAt: "2023-08-11T08:07:00Z",
+          content: null,
+        },
+        {
+          source: { id: null, name: "NDTV News" },
+          author: "NDTV Sports Desk",
+          title:
+            "Rohit Sharma Finally Reveals Why He and Virat Kohli Aren't Playing T20Is For India - NDTV Sports",
+          description:
+            "Rohit Sharma and Virat Kohli didn't feature in a single T20I for India this year.",
+          url: "https://sports.ndtv.com/cricket/you-didnt-ask-about-him-rohit-sharma-stumps-reporter-on-virat-kohli-question-4288845",
+          urlToImage:
+            "https://c.ndtvimg.com/2023-08/fqvdg2gg_virat-kohli-and-rohit-sharma-bcci_625x300_11_August_23.jpg?im=FeatureCrop,algorithm=dnn,width=1200,height=675",
+          publishedAt: "2023-08-11T07:43:00Z",
+          content:
+            "India's two superstar batters, Virat Kohli and Rohit Sharma, haven't played a single T20 international for the national team this year. With Hardik Pandya leading the Indian troops in the shortest fo… [+1487 chars]",
+        },
+        ],
+      },
+  ];
+  constructor() {
     super();
-    console.log("hello")
-    this.state={
-      articles:this.articles, 
-      loading:false
-
-    }
+    console.log("hello");
+    this.state = {
+      articles: this.articles,
+      loading: false,
+    };
   }
+  async componentDidMount(){
+    console.log("cdm");
+    let url="https://newsapi.org/v2/top-headlines?country=in&apiKey=e37432349ec34b10a8255b5b818f769f"
+    let data=await fetch(url);
+    let pastData=await data.json()
+    console.log(pastData);
+    this.setState({articles:pastData.articles})
+   }
   render() {
     return (
       <div>
-        <div className="container my-2 mx-2 ">
+        <div className="container ">
           <h2>NewsFeed-top headlines</h2>
-          
+
           {/* <NewsItem title="newstime" description="let eat some news" /> */}
-          <div className="row mx-2"  >
-          {this.state.articles.map((element)=>{
-         return  <div className="col-md-3"key={element.url}>
-          <NewsItem  title={element.name.slice(0,10)} description={element.description.slice(0,80)} imageurl="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.9jQnpJ27JuQ9mMqfVbj5pwHaEH%26pid%3DApi&f=1&ipt=df7ae9b4e3e00f8b24a689a5fc26609879030373ded0e7672a5cee50ecc87cb5&ipo=images" newsurl={element.url}/>
-            </div> 
-          })}
-         
+          <div className="row mx-2">
+            {this.state.articles.map((element) => {
+              return (
+                <div className="col-md-4" key={element.url}>
+                  <NewsItem 
+                    title={element.title ? element.title : " "}
+                    description={
+                      element.description ? element.description.slice(0, 80) : " "
+                    }
+                    imageurl={element.urlToImage ? element.urlToImage : ""}
+                    newsurl={element.url ? element.url : ""}
+                  />
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
