@@ -1,105 +1,90 @@
 import React, { Component } from "react";
 import NewsItem from "./NewsItem";
+import PropTypes from 'prop-types'
+
 export class News extends Component {
-  articles = [
-    {
-      status: "ok",
-      totalResults: 38,
-      articles: [
-        {
-          source: { id: null, name: "India Today" },
-          author: "Ankita Garg",
-          title:
-            "With iOS 17, Apple likely to change the way you hang up calls on iPhones and access other things - India Today",
-          description:
-            'iOS 17 update: Apple has repositioned the iconic red "end call" button and mixed it with other buttons. The change will likely affect your daily life as long time iPhone users will initially tap on wrong buttons to hang up calls.',
-          url: "https://www.indiatoday.in/technology/news/story/with-ios-17-apple-likely-to-change-the-way-you-hang-up-calls-on-iphones-and-access-other-things-2419577-2023-08-11",
-          urlToImage:
-            "https://akm-img-a-in.tosshub.com/indiatoday/images/media_bank/202308/iphone-representationalpng-011411-16x9.png?VersionId=djIH8q13DvYWfUl8Jk4Omir7WdLAgVo6",
-          publishedAt: "2023-08-11T08:24:21Z",
-          content:
-            "Apple's forthcoming iOS 17 has caught the attention of everyone, as images from its beta versions unveil a range of intriguing alterations. The upcoming iOS version is said to add functions for the n… [+2430 chars]",
-        },
-        {
-          source: { id: "the-hindu", name: "The Hindu" },
-          author: "The Hindu",
-          title:
-            "Bill introduced to remove CJI from panel to select Election Commissioners - The Hindu",
-          description: null,
-          url: "https://www.thehindu.com/news/national/bill-moved-to-remove-cji-from-panel-to-select-election-commissioners/article67180873.ece",
-          urlToImage: null,
-          publishedAt: "2023-08-11T08:07:00Z",
-          content: null,
-        },
-        {
-          source: { id: null, name: "NDTV News" },
-          author: "NDTV Sports Desk",
-          title:
-            "Rohit Sharma Finally Reveals Why He and Virat Kohli Aren't Playing T20Is For India - NDTV Sports",
-          description:
-            "Rohit Sharma and Virat Kohli didn't feature in a single T20I for India this year.",
-          url: "https://sports.ndtv.com/cricket/you-didnt-ask-about-him-rohit-sharma-stumps-reporter-on-virat-kohli-question-4288845",
-          urlToImage:
-            "https://c.ndtvimg.com/2023-08/fqvdg2gg_virat-kohli-and-rohit-sharma-bcci_625x300_11_August_23.jpg?im=FeatureCrop,algorithm=dnn,width=1200,height=675",
-          publishedAt: "2023-08-11T07:43:00Z",
-          content:
-            "India's two superstar batters, Virat Kohli and Rohit Sharma, haven't played a single T20 international for the national team this year. With Hardik Pandya leading the Indian troops in the shortest fo… [+1487 chars]",
-        },
-      ],
-    },
-  ];
+  static defaultProps={
+country:'in',
+pageSize:8,
+category: 'general'
+  }
+  static propTypes={
+    country:PropTypes.string,
+    pageSize:PropTypes.number,
+    category: PropTypes.string,
+  }
   constructor() {
     super();
     console.log("hello");
     this.state = {
       articles: [],
       loading: false,
-      page:1, 
+      page: 1,
     };
   }
-  async componentDidMount() {
+  async updatenews(){
     console.log("cdm");
-    let url =
-      "https://newsapi.org/v2/top-headlines?country=in&apiKey=e37432349ec34b10a8255b5b818f769f";
+    const url =
+      `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=e37432349ec34b10a8255b5b818f769f&page=${this.state.page}&pageSize=${this.props.pageSize}`;
     let data = await fetch(url);
     let pastData = await data.json();
     console.log(pastData);
-    this.setState({ articles: pastData.articles,totalResults: pastData.totalResults});
+    this.setState({
+      articles: pastData.articles,
+      totalResults: pastData.totalResults,
+    });
+  }
+  async componentDidMount() {
+    this.updatenews()
+    // console.log("cdm");
+    // let url =
+    //   `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=e37432349ec34b10a8255b5b818f769f&page=1&pageSize=${this.props.pageSize}`;
+    // let data = await fetch(url);
+    // let pastData = await data.json();
+    // console.log(pastData);
+    // this.setState({
+    //   articles: pastData.articles,
+    //   totalResults: pastData.totalResults,
+    // });
   }
 
-
   handlePrevClick = async () => {
-    console.log("previous")
-    let url = `https://newsapi.org/v2/top-headlines?country=in&apiKey=e37432349ec34b10a8255b5b818f769f&page=${
-      this.state.page - 1
-    }&pageSize=20`;
-    let data = await fetch(url);
-    let pastData = await data.json();
-    console.log(pastData);
-    // this.setState({  });
 
-    this.setState({ articles: pastData.articles, page: this.state.page - 1 });
+    this.setState({page:this.state.page-1})
+    this.updatenews()
+    // console.log("previous");
+    // let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=e37432349ec34b10a8255b5b818f769f&page=${
+    //   this.state.page - 1
+    // }&pageSize=${this.props.pageSize}`;
+    // let data = await fetch(url);
+    // let pastData = await data.json();
+    // console.log(pastData);
+    // // this.setState({  });
+
+    // this.setState({ articles: pastData.articles, page: this.state.page - 1 });
   };
   handleNextClick = async () => {
+    this.setState({page:this.state.page+1})
+    this.updatenews()
+    // console.log("next");
+    // if (this.state.page + 1 > Math.ceil(this.state.totalResults / this.props.pageSize)) {
+    // } else {
+    //   let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=e37432349ec34b10a8255b5b818f769f&page=${
+    //     this.state.page + 1
+    //   }&pageSize=${this.props.pageSize}`;
+    //   let data = await fetch(url);
+    //   let pastData = await data.json();
+    //   console.log(pastData);
+    //   // this.setState({  });
 
-    console.log("next")
-    if(  this.state.page + 1>Math.ceil(this.state.totalResults/20)){}
-    else{
-    let url = `https://newsapi.org/v2/top-headlines?country=in&apiKey=e37432349ec34b10a8255b5b818f769f&page=${
-      this.state.page + 1
-    }&pageSize=20`;
-    let data = await fetch(url);
-    let pastData = await data.json();
-    console.log(pastData);
-    // this.setState({  });
-
-    this.setState({ articles: pastData.articles, page: this.state.page + 1 });
-  }};
+    //   this.setState({ articles: pastData.articles, page: this.state.page + 1 });
+    // }
+  };
   render() {
     return (
       <div>
         <div className="container ">
-          <h2>NewsFeed-top headlines</h2>
+          <div className="text-center my-4"><h1>NewsFeed-Lets Know Something Crispy</h1></div>
 
           {/* <NewsItem title="newstime" description="let eat some news" /> */}
           <div className="row mx-2">
@@ -109,10 +94,12 @@ export class News extends Component {
                   <NewsItem
                     title={element.title ? element.title : " "}
                     description={
-                      element.description ? element.description : " "
+                      element.description ? element.description.slice(0,88) : " "
                     }
                     imageurl={element.urlToImage ? element.urlToImage : ""}
                     newsurl={element.url ? element.url : ""}
+                    author={element.author} date={element.publishedAt}
+
                   />
                 </div>
               );
@@ -126,9 +113,9 @@ export class News extends Component {
             className="btn btn-dark"
             onClick={this.handlePrevClick}
           >
-           &larr; Previous
+            &larr; Previous
           </button>
-          <button
+          <button disabled={ (this.state.page + 1 > Math.ceil(this.state.totalResults / this.props.pageSize))}
             type="button"
             className="btn btn-dark"
             onClick={this.handleNextClick}
