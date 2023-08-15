@@ -6,7 +6,7 @@ export class News extends Component {
   static defaultProps={
 country:'in',
 pageSize:8,
-category: 'general'
+category: 'sports'
   }
   static propTypes={
     country:PropTypes.string,
@@ -19,8 +19,9 @@ category: 'general'
     this.state = {
       articles: [],
       loading: false,
-      page: 1,
+      page: 3,
     };
+   
   }
   async updatenews(){
     console.log("cdm");
