@@ -12,7 +12,7 @@ export default class Navbar extends Component {
       <div>
         <nav className="navbar fixed-top navbar-expand-lg bg-dark navbar-dark">
           <div className="container-fluid">
-            <Link className="navbar-brand" to="#">
+            <Link className="navbar-brand" to="/NewsApp">
               NewsFeed
             </Link>
             <button
@@ -32,7 +32,7 @@ export default class Navbar extends Component {
             >
               <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                 <li className="nav-item">
-                  <Link className="nav-link active" aria-current="page" to="/home
+                  <Link className="nav-link active" aria-current="page" to="/
                   ">
                     Home
                   </Link>

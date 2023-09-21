@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import NewsItem from "./NewsItem";
 import PropTypes from 'prop-types'
 import InfiniteScroll from 'react-infinite-scroll-component';
+import Home from "./Home";
 export class News extends Component {
   static defaultProps={
 country:'in',
@@ -97,7 +98,7 @@ category: 'entertainment'
   render() {
     return (
       <div>
-      
+      <Home/>
           <div className="text-center my-4 mt-5 p-4 "><h1>NewsFeed-Lets Know Something Crispy</h1></div>
 
           {/* <NewsItem title="newstime" description="let eat some news" /> */}
